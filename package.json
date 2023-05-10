@@ -1,0 +1,39 @@
+{
+  "name": "shopomore",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@sentry/browser": "^7.50.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.5",
+    "net": "^1.0.2",
+    "next": "13.3.1",
+    "paytmchecksum": "^1.5.0",
+    "razorpay": "^2.8.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
+    "react-toastify": "^9.1.2",
+    "shortid": "^2.2.16",
+    "tls": "^0.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.1"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  }
+}
