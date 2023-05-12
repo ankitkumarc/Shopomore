@@ -6,19 +6,38 @@ import Script from 'next/script';
 const Razorpay = require("razorpay");
 
 const checkout = ({ cart, deleteFromCart, subtotal }) => {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [address, setAddress] = useState('')
+    const [phoneno, setPhoneno] = useState('')
+    const [pincode, setPincode] = useState('')
     const [disabled, setDisabled] = useState(true)
 
     const handleChange = (e) => {
-        if ((e.target.name == 'name' && e.target.value !== null) && (e.target.name == 'address' && e.target.value !== null) && (e.target.name == 'phoneno' && e.target.value !== null) && (e.target.name == 'city' && e.target.value !== null) && (e.target.name == 'pincode' && e.target.value !== null)) {
-            setDisabled(false);
-        }
+        if (e.target.name == 'name')
+            setName(e.target.value);
+        else if (e.target.name == 'email')
+            setEmail(e.target.value);
+        else if (e.target.name == 'address')
+            setAddress(e.target.value);
+        else if (e.target.name == 'phoneno')
+            setPhoneno(e.target.value);
+        else if (e.target.name == 'pincode')
+            setPincode(e.target.value);
+
+        setTimeout(() => {
+            if (name.length > 3 && address.length > 3 && phoneno.length > 9 && pincode.length == 6) setDisabled(false);
+            else setDisabled(true);
+        }, 100)
+
+
     }
 
     const makePayment = async (e) => {
 
         // Make API call to the serverless API
         let oid = Math.floor(Math.random() * Date.now());
-        const productId = { cart: cart, amount: subtotal, oid: oid }
+        const productId = { cart: cart, amount: subtotal, oid: oid, name: name, email: email, address: address, phoneno: phoneno, pincode: pincode }
         const data = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`, {
             method: "POST",
             headers: {
@@ -81,7 +100,7 @@ const checkout = ({ cart, deleteFromCart, subtotal }) => {
             </div>
 
             <div className="w-full mb-4 p-2">
-                <label htmlFor="message" className="leading-7 text-sm text-gray-600 font-bold">Address</label>
+                <label htmlFor="address" className="leading-7 text-sm text-gray-600 font-bold">Address</label>
                 <textarea id="address" onChange={handleChange} placeholder='Enter full address' name="address" row="15" className=" w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" ></textarea>
             </div>
 
@@ -89,28 +108,29 @@ const checkout = ({ cart, deleteFromCart, subtotal }) => {
                 <div className='px-2 w-1/2'>
                     <div className="relative mb-4">
                         <label htmlFor="phoneno" className="leading-7 text-sm text-gray-600 font-bold">Phone Number</label>
-                        <input type="text" id="phoneno" name="phoneno" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                    </div>
-                </div>
-                <div className='px-2 w-1/2'>
-                    <div className="relative mb-4">
-                        <label htmlFor="city" className="leading-7 text-sm text-gray-600 font-bold">City</label>
-                        <input type="text" id="city" name="city" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                    </div>
-                </div>
-            </div>
-
-            <div className='mx-auto flex'>
-                <div className='px-2 w-1/2'>
-                    <div className="relative mb-4">
-                        <label htmlFor="state" className="leading-7 text-sm text-gray-600 font-bold">State</label>
-                        <input type="text" id="state" name="phoneno" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                        <input type="text" id="phoneno" onChange={handleChange} name="phoneno" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                     </div>
                 </div>
                 <div className='px-2 w-1/2'>
                     <div className="relative mb-4">
                         <label htmlFor="pincode" className="leading-7 text-sm text-gray-600 font-bold">Pincode</label>
                         <input type="text" id="pincode" name="pincode" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div className='mx-auto flex'>
+                <div className='px-2 w-1/2'>
+                    <div className="relative mb-4">
+                        <label htmlFor="state" className="leading-7 text-sm text-gray-600 font-bold">State</label>
+                        <input type="text" id="state" name="phoneno" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out readOnly={true}" />
+                    </div>
+                </div>
+                <div className='px-2 w-1/2'>
+                    <div className="relative mb-4">
+                        <label htmlFor="city" className="leading-7 text-sm text-gray-600 font-bold">City</label>
+                        <input type="text" id="city" name="city" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" readOnly={true} />
                     </div>
                 </div>
 
@@ -137,7 +157,7 @@ const checkout = ({ cart, deleteFromCart, subtotal }) => {
 
             </div>
             <div className='flex my-3'>
-                <Link dis href={'/checkout'}> <button disabled={disabled} onClick={makePayment} id="rzp-button1" className="text-black item flex text-center bg-red-600 border-0 py-2 px-2 focus:outline-none hover:bg-red-600 rounded-xl text-md font-bold mr-4"><BsFillBagCheckFill className='m-1' /> Pay - ₹ {subtotal}</button>
+                <Link dis href={'/checkout'}> <button onClick={makePayment} id="rzp-button1" className="text-black item flex text-center bg-red-600 border-0 py-2 px-2 focus:outline-none hover:bg-red-600 rounded-xl text-md font-bold mr-4"><BsFillBagCheckFill className='m-1' /> Pay - ₹ {subtotal}</button>
                 </Link>
             </div>
         </div>

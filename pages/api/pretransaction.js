@@ -1,6 +1,9 @@
 // pages/api/razorpay.js
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
+import mongoose from "mongoose";
+import Order from '@/models/Order';
+import connectDB from "@/middleware/mongoose";
 
 // Initialize razorpay object
 const razorpay = new Razorpay({
@@ -9,7 +12,25 @@ const razorpay = new Razorpay({
 });
 
 async function handler(req, res) {
-    console.log(req.body.amount);
+
+    // check if order is tempered---[pending]
+
+    // check  if details are valid ---[pending]
+
+    // check if cart items are out of stock --- [pending]
+
+    // Initiate new order
+    let cus_order = new Order({
+        email: req.body.email,
+        OrderId: req.body.oid,
+        address: req.body.address,
+        amount: req.body.amount,
+        products: req.body.cart,
+
+    })
+    await cus_order.save();
+
+
     const amount = req.body.amount * 100
     const currency = "INR";
     const options = {
