@@ -22,8 +22,9 @@ async function handler(req, res) {
         response = { "signatureIsValid": "true" }
 
     // update status into orders table after checking the order
-    let cus_order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID },
-        { status: 'PAID' })
+    await Order.findOneAndUpdate({ orderId: req.body.ORDERID },
+        { status: 'Paid' })
+
 
     res.redirect('/order', 200)
 
