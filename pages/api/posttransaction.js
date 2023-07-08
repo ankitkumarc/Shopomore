@@ -22,11 +22,11 @@ async function handler(req, res) {
         response = { "signatureIsValid": "true" }
 
     // update status into orders table after checking the order
-    await Order.findOneAndUpdate({ orderId: req.body.ORDERID },
+    let order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID },
         { status: 'Paid' })
 
 
-    res.redirect('/order', 200)
+    res.redirect('/order?id=' + order._id, 200)
 
     // Intiate shipping
 
