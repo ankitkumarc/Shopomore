@@ -26,7 +26,7 @@ async function handler(req, res) {
         { status: 'Paid' })
 
 
-    res.redirect('/order?id=' + order._id, 200)
+    res.redirect('/order?id=' + order.OrderId, 200)
 
     // Intiate shipping
 

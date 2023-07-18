@@ -1,9 +1,7 @@
 // pages/api/razorpay.js
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
-import mongoose from "mongoose";
 import Order from '@/models/Order';
-import connectDB from "@/middleware/mongoose";
 
 // Initialize razorpay object
 const razorpay = new Razorpay({
@@ -12,8 +10,6 @@ const razorpay = new Razorpay({
 });
 
 async function handler(req, res) {
-
-    // check if order is tempered---[pending]
 
     // check  if details are valid ---[pending]
 
